@@ -1,0 +1,74 @@
+<html lang="en-US">
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<script src="controller.js">
+
+</script>
+<body  ng-app="myApp">
+
+<div ng-controller="myCtrl">
+Empty: <input type="text" ng-model="pen.isEmpty"><br><br><br>
+Animal : <input type="text" ng-model="pen.containsAnimal"><br><br><br>
+<br>
+<button name="addCage" ng-click="addCage()"> Add Pen </button><br><br><br>
+<button ng-click="listPens()"> List Pens </button><br><br><br>
+<table  border="1">
+<th>Id</th>
+<th>Empty</th>
+<th>Contains Animal</th>
+<tr ng-repeat="x in pens">
+<td>
+{{x.id}}
+</td>
+<td>
+{{x.empty}}
+</td>
+<td>
+{{x.containsAnimal}}
+</td>
+</tr>
+</table>
+<br>
+<br><br><br><br><br><br><br><br><br>
+Scientific Name:    <input type="text" ng-model="animal.scientificName"><br><br><br>
+Locomotion Modes :  <input type="text" ng-model="animal.locomotionModes"><br><br><br>
+Diet category :     <input type="text" ng-model="animal.dietCategory"><br><br><br>
+Animal Type :       <input type="text" ng-model="animal.animalType"><br><br><br>
+Lays Eggs :         <input type="text" ng-model="animal.layEggs"><br><br><br>
+Colour :            <input type="text" ng-model="animal.color"><br><br><br>
+<button  name="addAnimal" ng-click="addAnimal()"> Add Animal </button><br><br><br>
+
+<button ng-click="listAnimals()"> List Animal </button><br>
+<table  border="1">
+<th>Id</th>
+<th>Scientific Name</th>
+<th>Locomotion Modes</th>
+<th>Diet category</th>
+<th>Colour</th>
+<th>Pen Id</th>
+<tr ng-repeat="x in animals">
+<td>
+{{x.id}}
+</td>
+<td>
+{{x.scientificName}}
+</td>
+<td>
+{{x.locomotionModes}}
+</td>
+<td>
+{{x.dietCategory}}
+</td>
+<td>
+{{x.color}}
+</td>
+<td>
+{{x.pen.id}}
+</td>
+</tr>
+</table>
+
+</div>
+
+
+</body>
+</html>
