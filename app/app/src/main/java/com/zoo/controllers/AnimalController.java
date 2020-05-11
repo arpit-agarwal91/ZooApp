@@ -15,53 +15,37 @@ import com.zoo.dao.Animal;
 import com.zoo.dao.Pen;
 import com.zoo.repositories.AnimalRepository;
 import com.zoo.repositories.PenRepository;
+import com.zoo.services.AnimalService;
 
 @RestController
 public class AnimalController {
-
-	@Autowired
-	@Lazy
-	AnimalRepository animalRepository;
 	
 	@Autowired
-	@Lazy
-	PenRepository penRepository;
+	AnimalService animalService;
 	
 	@RequestMapping("/animals")
 	public List<Animal> getAllPens(){
-		
-		return animalRepository.findAll();
+		return animalService.findAll();
 	}
 	
 	@RequestMapping(value="/animals"+"/"+"{id}", method=RequestMethod.GET)
-	public Animal getPenById(@PathVariable("id") Integer id) {
-		return animalRepository.getOne(id);
+	public Animal getAnimalById(@PathVariable("id") Integer id) {
+		return animalService.findById(id);
 	}
 
 	@RequestMapping(value="/animals", method=RequestMethod.POST)
 	public Animal create(@RequestBody Animal animal) {
-		animalRepository.saveAndFlush(animal);
-		List<Pen> pens = penRepository.findAll();
-		for(Pen pen : pens) {
-			if(pen.getContainsAnimal()==animal.getId()) {
-				animal.setPen(pen);
-			}
-		}
-		return animal;	
+		return animalService.createAnimal(animal);	
 	}
 	
 	@RequestMapping(value="/animals"+"/"+"{id}", method=RequestMethod.PUT)
 	public Animal update(@RequestBody Animal animal,@PathVariable("id") Integer id) {
-		Animal obj = animalRepository.getOne(id);
-		obj = animal;
-		animalRepository.save(obj);
-		return obj;	
+		return animalService.updateAnimal(animal, id);	
 	}
 	
 	@RequestMapping(value="/animals"+"/"+"{id}", method=RequestMethod.DELETE)
 	public boolean remove(@PathVariable("id") Integer id) {
-		animalRepository.deleteById(id);
-		return true;	
+		return animalService.removeAnimal(id);	
 	}
 	
 }

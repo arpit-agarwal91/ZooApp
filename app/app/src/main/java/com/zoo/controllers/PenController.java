@@ -15,53 +15,36 @@ import com.zoo.dao.Animal;
 import com.zoo.dao.Pen;
 import com.zoo.repositories.AnimalRepository;
 import com.zoo.repositories.PenRepository;
+import com.zoo.services.PenService;
 
 @RestController
 public class PenController {
 	
 	@Autowired
-	@Lazy
-	PenRepository penRepository;
-	
-	@Autowired
-	@Lazy
-	AnimalRepository animalRepository;
+	PenService penService;
 	
 	@RequestMapping("/pens")
 	public @ResponseBody List<Pen> getAllPens(){
-		return penRepository.findAll();
+		return penService.findAll();
 	}
 	
 	@RequestMapping(value="/pens"+"/"+"{id}", method=RequestMethod.GET)
 	public Pen getPenById(@PathVariable("id") Integer id) {
-		return penRepository.getOne(id);
+		return penService.findById(id);
 	}
 
 	@RequestMapping(value="/pens", method=RequestMethod.POST)
 	public Pen create(@RequestBody Pen pen) {
-		penRepository.save(pen);
-		List<Animal> animals = animalRepository.findAll();
-		for(Animal animal: animals) {
-			if(pen.getContainsAnimal()==animal.getId()) {
-				animal.setPen(pen);
-				animalRepository.saveAndFlush(animal);
-			}
-		}
-		
-		return pen;	
+		return penService.createPen(pen);	
 	}
 	
 	@RequestMapping(value="/pens"+"/"+"{id}", method=RequestMethod.PUT)
 	public Pen update(@RequestBody Pen pen,@PathVariable("id") Integer id) {
-		Pen obj = penRepository.getOne(id);
-		obj = pen;
-		penRepository.save(obj);
-		return obj;	
+		return penService.updatePen(pen,id);	
 	}
 	
 	@RequestMapping(value="/pens"+"/"+"{id}", method=RequestMethod.DELETE)
 	public boolean remove(@PathVariable("id") Integer id) {
-		penRepository.deleteById(id);
-		return true;	
+		return penService.deletePen(id);	
 	}
 }
