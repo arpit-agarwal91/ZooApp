@@ -19,7 +19,7 @@ import com.zoo.entities.DietCategory;
 import com.zoo.entities.LocomotionModes;
 
 @Entity
-public class Animal {
+public abstract class Animal {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -27,11 +27,11 @@ public class Animal {
 	private String scientificName;
 	
 	@ElementCollection
-	private List<LocomotionModes> locomotionModes;
+	protected List<LocomotionModes> locomotionModes;
 	
-	private boolean layEggs;
+	public boolean layEggs;
 	private DietCategory dietCategory;
-	private AnimalType animalType;
+	protected AnimalType animalType;
 	private String color;
 	
 	@OneToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY, optional = true)
@@ -68,15 +68,15 @@ public class Animal {
 	public List<LocomotionModes> getLocomotionModes() {
 		return locomotionModes;
 	}
-	public void setLocomotionModes(List<LocomotionModes> locomotionModes) {
-		this.locomotionModes = locomotionModes;
-	}
+	
+	public abstract void setLocomotionModes();
+	
 	public boolean isLayEggs() {
 		return layEggs;
 	}
-	public void setLayEggs(boolean layEggs) {
-		this.layEggs = layEggs;
-	}
+	
+	public abstract void setLayEggs();
+	
 	public DietCategory getDietCategory() {
 		return dietCategory;
 	}
@@ -86,10 +86,8 @@ public class Animal {
 	public AnimalType getAnimalType() {
 		return animalType;
 	}
-	public void setAnimalType(AnimalType animalType) {
-		this.animalType = animalType;
-	}
-
+	public abstract void setAnimalType();
+	
 //	public Animal(Builder builder) {
 //		this.scientificName = builder.scientificName;
 //		this.locomotionModes = builder.locomotionModes;

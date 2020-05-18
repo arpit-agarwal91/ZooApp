@@ -7,7 +7,11 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import com.zoo.dao.Animal;
+import com.zoo.dao.Bird;
+import com.zoo.dao.Mammal;
 import com.zoo.dao.Pen;
+import com.zoo.dao.Reptile;
+import com.zoo.entities.AnimalType;
 import com.zoo.repositories.AnimalRepository;
 import com.zoo.repositories.PenRepository;
 
@@ -35,7 +39,30 @@ public class AnimalServiceImpl implements AnimalService {
 
 	@Override
 	public Animal createAnimal(Animal animal) {
-		animalRepository.saveAndFlush(animal);
+		if(animal.getAnimalType().equals(AnimalType.BIRD)) {
+			Animal bird = new Bird();
+			bird.setColor(animal.getColor());
+			bird.setDietCategory(animal.getDietCategory());
+			bird.setScientificName(animal.getScientificName());
+			animalRepository.saveAndFlush(bird);
+			animal = bird;
+		}
+		if(animal.getAnimalType().equals(AnimalType.MAMMAL)) {
+			Animal mammal = new Mammal();
+			mammal.setColor(animal.getColor());
+			mammal.setDietCategory(animal.getDietCategory());
+			mammal.setScientificName(animal.getScientificName());
+			animalRepository.saveAndFlush(mammal);
+			animal = mammal;
+		}
+		if(animal.getAnimalType().equals(AnimalType.REPTILE)) {
+			Animal reptile = new Reptile();
+			reptile.setColor(animal.getColor());
+			reptile.setDietCategory(animal.getDietCategory());
+			reptile.setScientificName(animal.getScientificName());
+			animalRepository.saveAndFlush(reptile);
+			animal = reptile;
+		}
 		List<Pen> pens = penRepository.findAll();
 		for(Pen pen : pens) {
 			if(pen.getContainsAnimal()==animal.getId()) {
